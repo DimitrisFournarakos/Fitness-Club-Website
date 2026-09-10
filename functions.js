@@ -43,19 +43,6 @@
     applyResponsiveNav();
     window.addEventListener('resize', applyResponsiveNav);
 
-    //Lazy load hero video and other videos when they enter the viewport
-    // Φορτώνουμε το hero video μετά το αρχικό rendering της σελίδας.
-    window.addEventListener('load', () => {
-        const heroVideo = document.querySelector('.hero-video');
-        const videoSource = heroVideo?.querySelector('source[data-src]');
-
-        if (heroVideo && videoSource) {
-            videoSource.src = videoSource.dataset.src;
-            heroVideo.load();
-            heroVideo.play().catch(() => {});
-        }
-    });
-
     // Smooth Scroll
     var scroll = new SmoothScroll('a[href*="#"]', {
         speed: 1000,
@@ -71,15 +58,6 @@
         entries.forEach((entry) => {
             if (!entry.isIntersecting) {
                 return;
-            }
-
-            const lazyVideo = entry.target.querySelector('video');
-            const videoSource = lazyVideo?.querySelector('source[data-src]');
-
-            if (lazyVideo && videoSource) {
-                videoSource.src = videoSource.dataset.src;
-                lazyVideo.load();
-                lazyVideo.play().catch(() => {});
             }
 
             entry.target.classList.add('is-visible');
