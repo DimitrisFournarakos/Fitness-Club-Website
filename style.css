@@ -867,7 +867,12 @@ nav ul li a{
 @media screen and (max-width: 770px){
     /* Banner & Layout προσαρμογές για Mobile view */
     .banner-text h1{ font-size: 44px; }
-    .banner-btn a{ display: block; margin: 20px auto; }
+    .banner-btn a{
+        display: block;
+        width: min(150px, calc(100% - 32px));
+        box-sizing: border-box;
+        margin: 20px auto;
+    }
     .title-text h1{ font-size: 35px; }
     #about{ padding: 70px 0; }
     .about-container{
