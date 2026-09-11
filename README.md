@@ -32,11 +32,24 @@ A responsive fitness club website built with plain HTML, CSS and JavaScript. The
 
 ### Desktop
 
-![Fitness Club desktop homepage](screenshots/desktop-homepage.png)
+![Fitness Club Desktop homepage](screenshots/Desktop-View/desktop-homepage.png)
+![Fitness Club About page](screenshots/Desktop-View/about-page.png)
+![Fitness Club Features page](screenshots/Desktop-View/features-page.png)
+![Fitness Club Services page](screenshots/Desktop-View/services-page.png)
+![Fitness Club Services Cards page](screenshots/Desktop-View/services-cards-page.png)
+![Fitness Club Testimonials page](screenshots/Desktop-View/testimonials-page.png)
+![Fitness Club Contact page](screenshots/Desktop-View/contact-page.png)
 
 ### Mobile
 
-![Fitness Club mobile homepage](screenshots/mobile-homepage.png)
+![Fitness Club mobile homepage](screenshots/Mobile-View/mobile-homepage.png)
+![Fitness Club mobile Menu](screenshots/Mobile-View/mobile-menu.png)
+![Fitness Club About page](screenshots/Mobile-View/about-page.png)
+![Fitness Club Features page](screenshots/Mobile-View/features-page.png)
+![Fitness Club Services page](screenshots/Mobile-View/services-page.png)
+![Fitness Club Services Cards page](screenshots/Mobile-View/services-cards-page.png)
+![Fitness Club Testimonials page](screenshots/Mobile-View/testimonials-page.png)
+![Fitness Club Contact page](screenshots/Mobile-View/contact-page.png)
 
 ## Project structure
 
