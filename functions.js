@@ -5,6 +5,28 @@
     var sideNav = document.getElementById("sideNav");
     var menu = document.getElementById("menu");
 
+    // Οι συσκευές με περιορισμένους πόρους χρησιμοποιούν posters αντί για videos.
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var lowPerformanceDevice = prefersReducedMotion ||
+        (navigator.deviceMemory && navigator.deviceMemory <= 2) ||
+        (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) ||
+        (connection && connection.saveData);
+
+    function replaceVideosWithPosters() {
+        document.querySelectorAll('video[poster]').forEach(function(video) {
+            var poster = document.createElement('img');
+            poster.src = video.poster;
+            poster.alt = video.getAttribute('aria-label') || '';
+            poster.className = video.className + ' video-poster';
+            video.replaceWith(poster);
+        });
+    }
+
+    if (lowPerformanceDevice) {
+        replaceVideosWithPosters();
+    }
+
     function toggleMenu() {
         if (sideNav.classList.contains("open")) {
             sideNav.classList.remove("open");
@@ -43,11 +65,13 @@
     applyResponsiveNav();
     window.addEventListener('resize', applyResponsiveNav);
 
-    // Smooth Scroll
-    var scroll = new SmoothScroll('a[href*="#"]', {
-        speed: 1000,
-        speedAsDuration: true
-    });
+    // Σε low-performance mode το menu κάνει άμεση μετακίνηση χωρίς animation.
+    if (!lowPerformanceDevice) {
+        var scroll = new SmoothScroll('a[href*="#"]', {
+            speed: 1000,
+            speedAsDuration: true
+        });
+    }
 
     // Παρακολουθούμε τα στοιχεία και τα εμφανίζουμε όταν μπουν στο viewport.
     const revealElements = document.querySelectorAll(

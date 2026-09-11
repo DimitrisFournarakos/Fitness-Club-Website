@@ -218,7 +218,8 @@ nav ul li a{
     align-items: center;
 }
 
-.about-video video{
+.about-video video,
+.about-video-media{
     display: block;
     width: 100%;
     aspect-ratio: 4 / 3;
