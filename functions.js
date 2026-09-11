@@ -109,39 +109,34 @@
         counterObserver.observe(aboutSection);
     }
 
-//Pop up fuctions for Services
-// --- Modal Logic ---
+// Pop up functions for Services
 const modal = document.getElementById('serviceModal');
-const modalImg = document.getElementById('modalImg');
-const modalTitle = document.getElementById('modalTitle');
-const modalDesc = document.getElementById('modalDesc');
 
-// Ακρόαση συμβάντων στα κουμπιά "Περισσότερα"
-document.querySelectorAll('.service-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        //Διαβάζουμε τα δεδομένα από τα data attributes του κουμπιού
-        const title = button.getAttribute('data-title');
-        const img = button.getAttribute('data-img');
-        const desc = button.getAttribute('data-desc');
-
-        // Ενημερώνουμε το περιεχόμενο του Modal με τα νέα στοιχεία
-        modalTitle.textContent = title;
-        modalImg.src = img;
-        modalDesc.textContent = desc;
-
-        // Εμφάνιση του Modal
-        modal.classList.add('active');
-    });
-});
-
-//Συνάρτηση για το κλείσιμο του Modal
 function closeModal() {
-    modal.classList.remove('active');
+    if (modal) {
+        modal.classList.remove('active');
+    }
 }
 
-// Κλείσιμο αν ο χρήστης κάνει κλικ έξω από την κάρτα (στο σκοτεινό φόντο)
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-        closeModal();
-    }
-});
+if (modal) {
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+
+    //Ακρόαση συμβάντων στα κουμπιά "Περισσότερα" για να ανοίξει το modal με τις αντίστοιχες πληροφορίες
+    document.querySelectorAll('.service-btn').forEach(button => {
+        button.addEventListener('click', () => {
+        //Διαβάζουμε τα data attributes από το κουμπί και τα εμφανίζουμε στο modal.
+            modalTitle.textContent = button.getAttribute('data-title');
+            modalImg.src = button.getAttribute('data-img');
+            modalDesc.textContent = button.getAttribute('data-desc');
+            modal.classList.add('active');
+        });
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+}
