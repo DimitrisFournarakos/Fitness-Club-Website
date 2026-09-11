@@ -54,22 +54,30 @@
         '.scroll-reveal, .scroll-reveal-from-right'
     );
 
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) {
-                return;
-            }
+    // Τα παλιά browsers μπορεί να μην υποστηρίζουν IntersectionObserver.
+    if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.15
         });
-    }, {
-        threshold: 0.15
-    });
 
-    revealElements.forEach((element) => {
-        revealObserver.observe(element);
-    });
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+    } else {
+        // Χωρίς observer εμφανίζουμε αμέσως τα στοιχεία αντί να μείνουν κρυφά.
+        revealElements.forEach((element) => {
+            element.classList.add('is-visible');
+        });
+    }
 
     // Ξεκινάμε τους counters όταν το About section γίνει ορατό.
     const aboutSection = document.getElementById('about');
@@ -81,6 +89,12 @@
         const suffix = counter.dataset.suffix || ''; //Διαβαζω το suffix "+"
         const duration = 1100;
         const startTime = performance.now();
+
+        // Αν δεν υπάρχει requestAnimationFrame, δείχνουμε απευθείας την τελική τιμή.
+        if (!('requestAnimationFrame' in window)) {
+            counter.textContent = target + suffix;
+            return;
+        }
 
         function updateCounter(currentTime) {
             const progress = Math.min((currentTime - startTime) / duration, 1);
@@ -94,19 +108,42 @@
 
         requestAnimationFrame(updateCounter);
     }
-    //Έλεγχος αν το About section και οι counters υπάρχουν πριν δημιουργήσουμε τον observer
+    // Έλεγχος αν το About section και οι counters υπάρχουν πριν δημιουργήσουμε τον observer.
     if (aboutSection && counters.length) {
-        const counterObserver = new IntersectionObserver((entries, observer) => {
-            //Αν το About section δεν είναι ορατό, δεν κάνουμε τίποτα
-            if (!entries[0].isIntersecting) { 
+        // Εμποδίζουμε την επανεκτέλεση του animation αν ο observer ενεργοποιηθεί ξανά.
+        let countersStarted = false;
+
+        function startCounters() {
+            if (countersStarted) {
                 return;
             }
-            //Εκκίνηση όλων των counters
-            counters.forEach(animateCounter);
-            observer.disconnect();
-        }, { threshold: 0.85 }); //Threshold 0.85 σημαίνει ότι το 85% του About section πρέπει να είναι ορατό για να ξεκινήσει η εκτέλεση των counters animation.
 
-        counterObserver.observe(aboutSection);
+            countersStarted = true;
+            counters.forEach(animateCounter);
+        }
+
+        // Το χαμηλό threshold βοηθά το animation να ξεκινά και σε μικρές οθόνες.
+        if ('IntersectionObserver' in window) {
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                if (!entries[0].isIntersecting) {
+                    return;
+                }
+
+                startCounters();
+                observer.disconnect();
+            }, {
+                threshold: 0.75,
+                rootMargin: '0px 0px -10% 0px' // Ξεκινά όταν εμφανιστεί περίπου το 10% του section.
+            }); 
+
+            counterObserver.observe(aboutSection);
+
+            // Fallback αν ο παλιός browser δεν ενεργοποιήσει σωστά τον observer.
+            window.setTimeout(startCounters, 1500);
+        } else {
+            // Σε παλιούς browsers χωρίς IntersectionObserver εκτελούμε κατευθείαν το animation.
+            startCounters();
+        }
     }
 
 // Pop up functions for Services
