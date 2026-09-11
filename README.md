@@ -28,6 +28,16 @@ A responsive fitness club website built with plain HTML, CSS and JavaScript. The
 - Google Fonts
 - Smooth Scroll by Ferdinandi
 
+## Screenshots
+
+### Desktop
+
+![Fitness Club desktop homepage](screenshots/desktop-homepage.png)
+
+### Mobile
+
+![Fitness Club mobile homepage](screenshots/mobile-homepage.png)
+
 ## Project structure
 
 ```text
