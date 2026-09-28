@@ -102,3 +102,8 @@ The MIT License in this repository applies to the project's original source code
 ## Author
 
 Developed and designed by [Dimitris Fournarakos](https://github.com/DimitrisFournarakos).
+
+---
+
+> **⭐ If you liked this project, give it a star on GitHub!**  
+> It's a small gesture that helps a lot with visibility.
